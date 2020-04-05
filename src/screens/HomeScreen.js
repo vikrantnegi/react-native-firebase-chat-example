@@ -7,8 +7,14 @@ import {
   TextInput,
 } from 'react-native';
 
-function HomeScreen() {
+function HomeScreen({navigation}) {
   const [name, onChangeName] = useState('');
+
+  const onPress = () => {
+    if (name) {
+      navigation.navigate('Chat', {name: name});
+    }
+  };
 
   return (
     <View
@@ -25,7 +31,7 @@ function HomeScreen() {
         onChangeText={text => onChangeName(text)}
         value={name}
       />
-      <TouchableOpacity style={styles.buttonWrapper} onPress={this.onPress}>
+      <TouchableOpacity style={styles.buttonWrapper} onPress={onPress}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </View>
