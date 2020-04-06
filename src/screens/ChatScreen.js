@@ -1,14 +1,26 @@
-import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import React from 'react'
+import {Text,View,StyleSheet} from 'react-native'
+import { responsiveFontSize } from 'react-native-responsive-dimensions'
 
-function ChatScreen() {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Chat Screen</Text>
-    </View>
-  );
+export default function ChatScreen(){
+    return(
+        <View style={styles.container}>
+            <View style={styles.topBar}>
+                <Text style={{fontSize:responsiveFontSize(5)}}>Chats</Text>
+            </View>
+        </View>
+    )
 }
 
-const styles = StyleSheet.create({});
-
-export default ChatScreen;
+const styles = StyleSheet.create({
+    container:{
+        flex:1
+    },
+    topBar:{
+        justifyContent:'center',
+        alignItems:"center",
+        borderBottomColor:'grey',
+        borderBottomWidth:StyleSheet.hairlineWidth,
+        
+    }
+})

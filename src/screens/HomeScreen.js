@@ -1,67 +1,123 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useCallback } from 'react'
+import {SafeAreaView,View,StyleSheet, AsyncStorage,RefreshControl,ScrollView} from 'react-native'
+import {Text} from 'react-native-paper';
+import  {firebase} from '@react-native-firebase/auth';
+import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import auth from '@react-native-firebase/auth';
 import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-  TextInput,
-} from 'react-native';
+    responsiveHeight,
+    responsiveWidth,
+    responsiveFontSize
+  } from "react-native-responsive-dimensions";
+import Person from '../components/Person';
+import database from '@react-native-firebase/database';
+import DrawerButton from '../components/DrawerButton';
 
-function HomeScreen({navigation}) {
-  const [name, onChangeName] = useState('');
 
-  const onPress = () => {
-    if (name) {
-      navigation.navigate('Chat', {name: name});
+export default function HomeScreen({navigation,user}){
+
+    const[name,setName]=useState('');
+    const[email,SetEmail]=useState('');
+    const[initializing,setInitializing] = useState(true);
+    const[userName,setUserName]=useState('');
+    const[refreshing, setRefreshing] =useState(false);
+    const[users,setUsers]=useState([]);
+    
+
+    async function onSignIn() {
+        // Get the users ID
+        const uid = auth().currentUser.uid;
+       
+        // Create a reference
+        const ref = database().ref(`/users/${uid}`);
+       
+        // Fetch the data snapshot
+        const snapshot = await ref.once('value');
+        
+        uName = snapshot.child('name').val();
+        setUserName(uName);
+        console.log(uName,'ye waala');
+
+        let dbRef = database().ref('users');
+        dbRef.on('child_added',(val) => {
+          let person = val.val();
+          person.email=val.key;
+          setUsers(prevState=> {
+            return {
+              ...prevState.users,person
+            }
+          })
+        })
+      }
+
+       
+          renderRow = ({item})=>{
+            
+            console.log(item,'here is item')
+             return(
+               <TouchableOpacity onPress={()=>navigation.navigate('Chat')}>
+                 <Text>hello{item.name}</Text>
+               </TouchableOpacity>
+             )
+           }
+ 
+
+      
+      
+
+      // const onRefresh = useCallback(()=>{
+      //   setRefreshing(true)
+        
+      //   setRefreshing(false)
+      // },[refreshing])
+    
+    function onAuthStateChanged(user) {
+        setName(user);
+        console.log(user)
+      
+        if (initializing) setInitializing(false);
+      }
+
+    useEffect(()=>{
+        const unsubscribe = auth().onAuthStateChanged(onAuthStateChanged);
+        console.log(unsubscribe,'unsubscribe h ye');
+        onSignIn();
+        return unsubscribe;
+        
+      },[])
+
+    const signOutUser =()=>{
+        navigation.navigate('Login')
     }
-  };
+        
 
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: 15,
-      }}>
-      <Text style={styles.title}>Enter your name:</Text>
-
-      <TextInput
-        placeHolder="John Doe"
-        style={styles.inputStyle}
-        onChangeText={text => onChangeName(text)}
-        value={name}
-      />
-      <TouchableOpacity style={styles.buttonWrapper} onPress={onPress}>
-        <Text style={styles.buttonText}>Next</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-const offset = 24;
-
+     
+    
+    return(               
+      <>
+        <Text>hello</Text>
+        <IconButton icon="camera" onPress={navigation.openDrawer()}/>
+      </>
+         )
+    }
+        
 const styles = StyleSheet.create({
-  inputStyle: {
-    height: offset * 2,
-    paddingHorizontal: offset,
-    borderColor: '#111111',
-    borderWidth: 1,
-    width: '100%',
-    marginBottom: offset / 2,
-  },
-  title: {
-    fontSize: offset,
-    marginBottom: offset / 2,
-  },
-  buttonWrapper: {
-    backgroundColor: '#5e72e4',
-    paddingVertical: offset / 3,
-    paddingHorizontal: offset / 2,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: offset,
-    textAlign: 'center',
-  },
-});
-
-export default HomeScreen;
+    scrollView:{
+      flex:1
+    },
+    topArea:{
+        justifyContent:"space-evenly",
+        height:50,
+        borderBottomColor:'grey',
+        borderBottomWidth:StyleSheet.hairlineWidth,
+        flex:1
+    },
+    topBar:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        height:30,
+    },
+    body:{
+      flex:15,
+    }
+})
