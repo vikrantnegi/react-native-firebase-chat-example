@@ -40,8 +40,6 @@ export default function LoginScreen({navigation}) {
 
     try {
       await auth().signInWithEmailAndPassword(email, password);
-
-      return navigation.navigate('Chat');
     } catch (error) {
       setLoading(false);
 
