@@ -6,10 +6,8 @@ import { Provider as PaperProvider, Title } from 'react-native-paper';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
 import HomeScreen from '../screens/HomeScreen';
-import EnterProperty from '../screens/EnterProperty';
 import { firebase } from '@react-native-firebase/auth';
 import ChatScreen from '../screens/ChatScreen';
-import RNBootSplash from "react-native-bootsplash";
 
 
 
@@ -32,8 +30,8 @@ export default function AppNavigator(){
    
     <NavigationContainer>
         <Stack.Navigator>
-            {/* <Stack.Screen name="Login" component={LoginScreen}  options={{headerShown:false}}/>
-            <Stack.Screen name="Signup" component={SignupScreen}  options={{headerShown:false}}/> */}
+            <Stack.Screen name="Login" component={LoginScreen}  options={{headerShown:false}}/>
+            <Stack.Screen name="Signup" component={SignupScreen}  options={{headerShown:false}}/>
             <Stack.Screen name="Home" component={HomeScreen}
              options={{title:'Chats',
              headerTitleAlign:'center'

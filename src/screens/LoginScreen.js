@@ -11,7 +11,6 @@ import {
 import { firebase } from '@react-native-firebase/auth';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
-import LinearGradient from 'react-native-linear-gradient';
 
 export default function LoginScreen({navigation}){
   const[password,setPassword]=useState('');
@@ -62,7 +61,7 @@ export default function LoginScreen({navigation}){
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }>
         <View style={styles.welcomemsg}>
-        <Icon name="login" size={90} color="#6a0dad" />
+        <Icon name="camera" size={90} color="#6a0dad" />
         </View>
         <View style={styles.errorMsg}>
             <Text style={styles.error}>{errorMessage}</Text>

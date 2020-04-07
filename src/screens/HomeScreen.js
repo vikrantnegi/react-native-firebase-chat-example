@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import {SafeAreaView,View,StyleSheet, AsyncStorage,RefreshControl,ScrollView} from 'react-native'
-import {Text} from 'react-native-paper';
+import {Text,IconButton} from 'react-native-paper';
 import  {firebase} from '@react-native-firebase/auth';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
@@ -9,7 +9,6 @@ import {
     responsiveWidth,
     responsiveFontSize
   } from "react-native-responsive-dimensions";
-import Person from '../components/Person';
 import database from '@react-native-firebase/database';
 import DrawerButton from '../components/DrawerButton';
 
@@ -27,13 +26,14 @@ export default function HomeScreen({navigation,user}){
     async function onSignIn() {
         // Get the users ID
         const uid = auth().currentUser.uid;
-       
         // Create a reference
+
         const ref = database().ref(`/users/${uid}`);
-       
+        console.log(ref,'ref h ye')
         // Fetch the data snapshot
+
         const snapshot = await ref.once('value');
-        
+
         uName = snapshot.child('name').val();
         setUserName(uName);
         console.log(uName,'ye waala');
@@ -96,7 +96,7 @@ export default function HomeScreen({navigation,user}){
     return(               
       <>
         <Text>hello</Text>
-        <IconButton icon="camera" onPress={navigation.openDrawer()}/>
+        {/* <IconButton icon="camera" onPress={navigation.openDrawer()}/> */}
       </>
          )
     }
