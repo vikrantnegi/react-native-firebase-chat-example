@@ -3,15 +3,56 @@ import {Text, View, StyleSheet, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {Button, TextInput} from 'react-native-paper';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
+import {showMessage} from 'react-native-flash-message';
+import auth from '@react-native-firebase/auth';
+
+import FullLoading from '../components/Loader';
 
 Icon.loadFont();
 
 export default function LoginScreen({navigation}) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const getErrorMessage = () => {
+    if (!email && !password) {
+      return 'Fields are mandatory';
+    }
+    if (!email) {
+      return 'Email is missing';
+    }
+    if (!password) {
+      return 'Password is missing';
+    }
+  };
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      const error = getErrorMessage();
+      showMessage({
+        message: error,
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await auth().signInWithEmailAndPassword(email, password);
+
+      return navigation.navigate('Chat');
+    } catch (error) {
+      setLoading(false);
+
+      showMessage({
+        message: error.message,
+      });
+    }
+  };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollView}>
+    <View style={styles.scrollView}>
       <View style={styles.welcomemsg}>
         <Icon name="login" size={90} color="#6a0dad" />
       </View>
@@ -38,7 +79,7 @@ export default function LoginScreen({navigation}) {
           />
         </View>
         <View style={styles.btnText}>
-          <Button mode="contained" onPress={() => {}} style={styles.btn}>
+          <Button mode="contained" onPress={handleLogin} style={styles.btn}>
             <Text>Login</Text>
           </Button>
           <Text style={{marginTop: 10}}>
@@ -52,7 +93,8 @@ export default function LoginScreen({navigation}) {
           </Text>
         </View>
       </View>
-    </ScrollView>
+      {loading && <FullLoading />}
+    </View>
   );
 }
 
@@ -89,6 +131,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     alignItems: 'center',
+    zIndex: 0,
   },
   btn: {
     width: responsiveWidth(50),

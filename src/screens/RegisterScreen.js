@@ -1,12 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, View, StyleSheet, AsyncStorage} from 'react-native';
-import {Button, TextInput, Text, Avatar} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/AntDesign';
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize,
-} from 'react-native-responsive-dimensions';
+import {View, StyleSheet} from 'react-native';
+import {Button, TextInput} from 'react-native-paper';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
 
 export default function Signup({navigation}) {
   const [password, setPassword] = useState('');
