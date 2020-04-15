@@ -5,7 +5,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
-  DrawerItemList,
 } from '@react-navigation/drawer';
 import {Button} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
@@ -16,6 +15,8 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ChatScreen from '../screens/ChatScreen';
+
+Icon.loadFont();
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

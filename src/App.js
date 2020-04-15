@@ -9,7 +9,7 @@ export default function App() {
   return (
     <PaperProvider>
       <AppNavigator />
-      <FlashMessage position="top" floating />
+      <FlashMessage position="bottom" floating />
     </PaperProvider>
   );
 }

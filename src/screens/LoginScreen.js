@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {Button, TextInput} from 'react-native-paper';
+import {Button, Text, TextInput} from 'react-native-paper';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
 import {showMessage} from 'react-native-flash-message';
 import auth from '@react-native-firebase/auth';
@@ -78,8 +78,9 @@ export default function LoginScreen({navigation}) {
         </View>
         <View style={styles.btnText}>
           <Button mode="contained" onPress={handleLogin} style={styles.btn}>
-            <Text>Login</Text>
+            Login
           </Button>
+          <Text style={{marginTop: 10}}>or</Text>
           <Text style={{marginTop: 10}}>
             New user?
             <Text
