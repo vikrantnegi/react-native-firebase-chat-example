@@ -25,7 +25,7 @@ const Drawer = createDrawerNavigator();
 
 async function logOut() {
   await AsyncStorage.removeItem('@name');
-  auth().signOut();
+  await auth().signOut();
 }
 
 function CustomDrawerContent(props) {
@@ -63,8 +63,6 @@ function AppNavigator({navigation}) {
 
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(async user => {
-      // console.log(user);
-
       setUser(user);
       setLoading(false);
     });
