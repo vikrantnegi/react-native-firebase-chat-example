@@ -4,6 +4,7 @@ import {Button, TextInput} from 'react-native-paper';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
 import {showMessage} from 'react-native-flash-message';
 import auth from '@react-native-firebase/auth';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import FullLoading from '../components/Loader';
 
@@ -14,8 +15,11 @@ export default function Signup({navigation}) {
   const [loading, setLoading] = useState(false);
 
   const getErrorMessage = () => {
-    if (!email && !password) {
+    if (!email && !password && !name) {
       return 'Fields are mandatory';
+    }
+    if (!name) {
+      return 'Name is missing';
     }
     if (!email) {
       return 'Email is missing';
@@ -26,7 +30,7 @@ export default function Signup({navigation}) {
   };
 
   const register = async () => {
-    if (!email || !password) {
+    if (!email || !password || !name) {
       const error = getErrorMessage();
       showMessage({
         message: error,
@@ -37,6 +41,8 @@ export default function Signup({navigation}) {
     setLoading(true);
 
     try {
+      await AsyncStorage.setItem('@name', name); // use redux??
+
       await auth().createUserWithEmailAndPassword(email, password);
     } catch (error) {
       // stop loader if error occurs

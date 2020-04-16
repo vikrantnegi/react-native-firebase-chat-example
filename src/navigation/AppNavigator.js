@@ -10,6 +10,7 @@ import {Button} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import database from '@react-native-firebase/database';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import AuthLoadingScreen from '../components/AuthLoading';
 import LoginScreen from '../screens/LoginScreen';
@@ -22,10 +23,15 @@ Icon.loadFont();
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
+async function logOut() {
+  await AsyncStorage.removeItem('@name');
+  auth().signOut();
+}
+
 function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
-      <Button mode="text" onPress={() => auth().signOut()}>
+      <Button mode="text" onPress={logOut}>
         Logout
       </Button>
     </DrawerContentScrollView>
@@ -56,8 +62,6 @@ function AppNavigator({navigation}) {
   const [userToken, setUser] = useState({});
 
   useEffect(() => {
-    const subscriber = database();
-
     const unsubscribe = auth().onAuthStateChanged(async user => {
       // console.log(user);
 
@@ -67,7 +71,6 @@ function AppNavigator({navigation}) {
 
     return () => {
       unsubscribe();
-      subscriber();
     };
   }, [navigation]);
 
