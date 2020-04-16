@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {
@@ -9,6 +9,7 @@ import {
 import {Button} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import database from '@react-native-firebase/database';
 
 import AuthLoadingScreen from '../components/AuthLoading';
 import LoginScreen from '../screens/LoginScreen';
@@ -55,13 +56,18 @@ function AppNavigator({navigation}) {
   const [userToken, setUser] = useState({});
 
   useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(user => {
+    const subscriber = database();
+
+    const unsubscribe = auth().onAuthStateChanged(async user => {
+      // console.log(user);
+
       setUser(user);
       setLoading(false);
     });
 
     return () => {
       unsubscribe();
+      subscriber();
     };
   }, [navigation]);
 

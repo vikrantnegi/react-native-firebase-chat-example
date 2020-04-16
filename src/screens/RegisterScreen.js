@@ -8,8 +8,9 @@ import auth from '@react-native-firebase/auth';
 import FullLoading from '../components/Loader';
 
 export default function Signup({navigation}) {
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   const getErrorMessage = () => {
@@ -37,8 +38,6 @@ export default function Signup({navigation}) {
 
     try {
       await auth().createUserWithEmailAndPassword(email, password);
-
-      return navigation.navigate('Chat');
     } catch (error) {
       // stop loader if error occurs
       setLoading(false);
@@ -53,7 +52,17 @@ export default function Signup({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.form}>
-        <View style={[styles.email, styles.class]}>
+        <View style={styles.inputWrapper}>
+          <TextInput
+            label="Name"
+            mode="outlined"
+            style={styles.textInput}
+            autoCapitalize="none"
+            onChangeText={e => setName(e)}
+            value={name}
+          />
+        </View>
+        <View style={styles.inputWrapper}>
           <TextInput
             label="Email"
             mode="outlined"
@@ -63,7 +72,7 @@ export default function Signup({navigation}) {
             value={email}
           />
         </View>
-        <View style={[styles.class, styles.password]}>
+        <View style={styles.inputWrapper}>
           <TextInput
             label="Password"
             mode="outlined"
@@ -74,7 +83,7 @@ export default function Signup({navigation}) {
             value={password}
           />
         </View>
-        <View style={[styles.btnText, styles.class]}>
+        <View style={styles.inputWrapper}>
           <Button mode="contained" onPress={register} style={styles.btn}>
             Sign Up
           </Button>
@@ -90,12 +99,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  welcomemsg: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  class: {
+  inputWrapper: {
     marginBottom: 20,
     alignItems: 'center',
   },
