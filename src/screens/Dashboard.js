@@ -17,7 +17,7 @@ async function getName() {
   }
 }
 
-function ChatScreen() {
+function Dashboard() {
   const [users, setUsers] = useState([]);
   const {currentUser} = auth();
 
@@ -80,6 +80,7 @@ function ChatScreen() {
         title={item.name}
         description={item.email}
         left={props => <List.Icon {...props} icon="account-circle" />}
+        onPress={() => console.log(item)}
       />
     );
   };
@@ -95,6 +96,4 @@ function ChatScreen() {
   );
 }
 
-const styles = StyleSheet.create({});
-
-export default ChatScreen;
+export default Dashboard;

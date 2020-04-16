@@ -9,14 +9,12 @@ import {
 import {Button} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import database from '@react-native-firebase/database';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import AuthLoadingScreen from '../components/AuthLoading';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
-import HomeScreen from '../screens/HomeScreen';
-import ChatScreen from '../screens/ChatScreen';
+import DashboardScreen from '../screens/Dashboard';
 
 Icon.loadFont();
 
@@ -52,7 +50,7 @@ function Main() {
           </TouchableOpacity>
         ),
       })}>
-      <Stack.Screen name="Chat" component={ChatScreen} />
+      <Stack.Screen name="Dashboard" component={DashboardScreen} />
     </Stack.Navigator>
   );
 }
