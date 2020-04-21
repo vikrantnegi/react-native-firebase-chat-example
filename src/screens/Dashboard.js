@@ -4,7 +4,6 @@ import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-community/async-storage';
 import database from '@react-native-firebase/database';
 import {List} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 async function getName() {
   try {
@@ -17,15 +16,14 @@ async function getName() {
   }
 }
 
-function Dashboard() {
+function Dashboard({navigation}) {
   const [users, setUsers] = useState([]);
   const {currentUser} = auth();
 
   useEffect(() => {
     if (currentUser) {
-      console.log(currentUser);
-
       // update user "displayName" saved in the local
+      // TODO: issue with current user "displayName" not updating
       getName().then(name => {
         currentUser.updateProfile({
           displayName: name,
@@ -80,7 +78,7 @@ function Dashboard() {
         title={item.name}
         description={item.email}
         left={props => <List.Icon {...props} icon="account-circle" />}
-        onPress={() => console.log(item)}
+        onPress={() => navigation.navigate('Chat', {userData: item})}
       />
     );
   };

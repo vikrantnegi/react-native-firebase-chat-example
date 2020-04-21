@@ -15,6 +15,7 @@ import AuthLoadingScreen from '../components/AuthLoading';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import DashboardScreen from '../screens/Dashboard';
+import ChatScreen from '../screens/ChatScreen';
 
 Icon.loadFont();
 
@@ -39,18 +40,27 @@ function CustomDrawerContent(props) {
 // Main stack navigator after login.
 function Main() {
   return (
-    <Stack.Navigator
-      screenOptions={({navigation, route}) => ({
-        headerLeftContainerStyle: {
-          paddingLeft: 10,
-        },
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-            <Icon name="menu" size={30} color="#666" />
-          </TouchableOpacity>
-        ),
-      })}>
-      <Stack.Screen name="Dashboard" component={DashboardScreen} />
+    <Stack.Navigator>
+      <Stack.Screen
+        options={({navigation, route}) => ({
+          headerLeftContainerStyle: {
+            paddingLeft: 10,
+          },
+          //title: route.params.email,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+              <Icon name="menu" size={30} color="#666" />
+            </TouchableOpacity>
+          ),
+        })}
+        name="Dashboard"
+        component={DashboardScreen}
+      />
+      <Stack.Screen
+        name="Chat"
+        options={({route}) => ({title: route.params?.userData.email})}
+        component={ChatScreen}
+      />
     </Stack.Navigator>
   );
 }
